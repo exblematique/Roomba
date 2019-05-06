@@ -1,0 +1,29 @@
+@startuml
+
+title cpMQTT classdiagram
+
+package "mosqpp" #DDDD00 {
+class mosquittopp 
+} 
+
+class Device <<abstract>> {
++ start()
++ restart()
++ shutdown()
+}
+class Heater <<active>> {
+- control()
+}
+
+mosquittopp <|-- CommandProcessor
+CommandProcessor <|-- HeaterMQTT
+HeaterMQTTapi o-up- Heater
+HeaterMQTTapi o-up- HeaterMQTT
+
+Device <|-down- Heater
+Device <|-down- HeaterActuator
+Heater *--- HeaterActuator
+Heater *--- OnOffController
+Heater *--- TemperatureSensor
+
+@enduml
