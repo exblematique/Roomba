@@ -1,0 +1,54 @@
+#include <cstdio>
+#include <cstring>
+
+#include "temperature_conversion.h"
+#include <mosquittopp.h>
+
+mqtt_tempconv::mqtt_tempconv(const char *id, const char *host, int port) : mosquittopp(id)
+{
+	int keepalive = 60;
+
+	/* Connect immediately. This could also be done by calling
+	 * mqtt_tempconv->connect(). */
+	connect(host, port, keepalive);
+};
+
+mqtt_tempconv::~mqtt_tempconv()
+{
+}
+
+void mqtt_tempconv::on_connect(int rc)
+{
+	printf("Connected with code %d.\n", rc);
+	if(rc == 0){
+		/* Only attempt to subscribe on a successful connect. */
+		subscribe(NULL, "roomba/#");
+	}
+}
+
+void mqtt_tempconv::on_message(const struct mosquitto_message *message)
+{
+  //double temp_celsius, temp_farenheit;
+  char buf[51];
+  int distance;
+  if(!strcmp(message->topic, "roomba/start")){
+    memset(buf, 0, 51*sizeof(char));	  
+    snprintf(buf, 50, "Start system");
+    publish(NULL, "roomba/command", strlen(buf), buf);
+  } else if(!strcmp(message->topic, "roomba/run")){
+    memset(buf, 0, 51*sizeof(char));
+    memcpy(buf, message->payload, 50*sizeof(char));
+    distance = atoi(buf);
+    snprintf(buf, 50, "Romba will be run during %d mm", distance);
+    publish(NULL, "roomba/command", strlen(buf), buf);
+  } else if(!strcmp(message->topic, "roomba/stop")){
+    memset(buf, 0, 51*sizeof(char));
+    snprintf(buf, 50, "Romba is stopped");
+    publish(NULL, "roomba/command", strlen(buf), buf);
+  }
+}
+
+void mqtt_tempconv::on_subscribe(int mid, int qos_count, const int *granted_qos)
+{
+	printf("Subscription succeeded.\n");
+}
