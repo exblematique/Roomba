@@ -1,0 +1,19 @@
+INCLUDING = -Ilib/SerialLink
+CFLAGS=-Wall -ggdb -Ilib/mqtt -Ilib/mqtt/cpp
+LDFLAGS=-Llib/mqtt lib/mqtt/cpp/libmosquittopp.so.1 lib/mqtt/libmosquitto.so.1
+
+.PHONY: all clean
+
+all : controlRoomba
+
+controlRoomba : main.o mqtt.o
+	${CXX} $^ -o $@ ${LDFLAGS}
+
+main.o : main.cpp
+	${CXX} -c $^ -o $@ ${CFLAGS}
+
+mqtt.o : mqtt.cpp
+	${CXX} -c $^ -o $@ ${CFLAGS}
+
+clean : 
+	-rm -f *.o controlRoomba

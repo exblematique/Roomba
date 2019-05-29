@@ -21,14 +21,15 @@
         var MQTT_Topic = "";
         var MQTT_Client = "";
         var MQTT_topic_root = "";
-        var rtt1 = "??";
-        var rtt2 = "??";
-        var rtt3 = "??";
+        var MQTT_topic_sub = "";
+        var nbWall = 0;
+        var lengthSide = 0;
 
         function initVars() {
             console.log("initVars");
             MQTT_device = "webapp";
             MQTT_topic_root = "ESEiot/1819sep/WebApp";
+            lengthSide = 20;
         }
 
         function mqtt_Connect_with_Broker() {
@@ -68,13 +69,12 @@
             document.getElementById("txt_MQTT_Broker_URL").disabled = true;
             document.getElementById("txt_MQTT_Client_ID").disabled = true;
             // ??document.getElementById("pubsub").style.display = 'visible';
-            document.getElementById("button1on").disabled = false;
-            document.getElementById("button1off").disabled = false;
-            document.getElementById("button2on").disabled = false;
-            document.getElementById("button2off").disabled = false;
-            document.getElementById("button3on").disabled = false;
-            document.getElementById("button3off").disabled = false;
-            MQTT_Client.subscribe("ESEiot/1819sep/WebApp/#");
+            document.getElementById("buttonRun").disabled = false;
+            document.getElementById("buttonSquare").disabled = false;
+            document.getElementById("buttonSensor").disabled = false;
+            document.getElementById("lengthSide").disabled = false;
+            MQTT_topic_sub = MQTT_topic_root + "toApi/";
+            MQTT_Client.subscribe(MQTT_topic_sub + "#");
         }
 
         // Called when the client loses its connection
@@ -95,38 +95,34 @@
                 " MQTT topic: " + "\"" + message.destinationName + "\"" +
                 " QoS: " + "\"" + message.qos + "\"" +
                 " Retained: " + "\"" + message.retained + "\"");
-            if (message.destinationName === MQTT_topic_root + "ledgreen") {
-                if (message.payloadString === '1') {
-                    $('#ledgreenO').attr('color', 'green');
+            if (message.destinationName === MQTT_topic_sub + "run") {
+                status(true);
+                $('#statusRun').attr('color', 'green');                    
+            }
+            if (message.destinationName === MQTT_topic_sub + "square") {
+                //if (message.payloadString === '1') {
+                    status(true);
+                    $('#statusSquare').attr('color', 'green');
+                //} else {
+                //    status(false);
+                //}
+            }
+            if (message.destinationName === MQTT_topic_sub + "sensor") {
+                if (message.payloadString === 'W') {
+                    nbWall += 1;
+                    document.getElementById("nbWall").innerHTML = nbWall;
                 } else {
-                    $('#ledgreenO').attr('color', 'grey');
+                    $('#statusSensor').attr('color', 'green');
+                    document.getElementById("statusWall").hidden = false;
+                    nbWall = 0;
+                    status(true);
                 }
-                rtt1 = (new Date()).getTime() - rtt1;
-                document.getElementById("rtt1").innerHTML = rtt1;
+                
             }
-            if (message.destinationName === MQTT_topic_root + "ledyellow") {
-                if (message.payloadString === '1') {
-                    $('#ledyellowO').attr('color', 'yellow');
-                } else {
-                    $('#ledyellowO').attr('color', 'grey');
-                }
-                rtt2 = (new Date()).getTime() - rtt2;
-                document.getElementById("rtt2").innerHTML = rtt2;
+            if (message.destinationName === MQTT_topic_sub + "Stop") {
+                status(false);
             }
-            if (message.destinationName === MQTT_topic_root + "ledred") {
-                if (message.payloadString === '1') {
-                    $('#ledredO').attr('color', 'red');
-                } else {
-                    $('#ledredO').attr('color', 'grey');
-                }
-                rtt3 = (new Date()).getTime() - rtt3;
-                document.getElementById("rtt3").innerHTML = rtt3;
-            }
-            if (message.destinationName === MQTT_topic_root + "temperature") {
-                document.getElementById('outputArea1').style.border = "solid red";
-                document.getElementById('outputArea1').innerHTML = message.payloadString;
-                setTimeout(resetTemperatureBorder, 5000);
-            }
+         
         }
 
         // Document Ready Event
@@ -138,16 +134,15 @@
                 "ws://broker.hivemq.com:8000/mqtt";
             document.getElementById("txt_MQTT_topicroot").value =
                 "ESEiot/1819sep/WebApp/" + MQTT_Client_ID + "/";
+            document.getElementById("lengthSide").value =
+                lengthSide;
 
-            document.getElementById("button1on").disabled = true;
-            document.getElementById("button1off").disabled = true;
-            document.getElementById("button2on").disabled = true;
-            document.getElementById("button2off").disabled = true;
-            document.getElementById("button3on").disabled = true;
-            document.getElementById("button3off").disabled = true;
-            document.getElementById("rtt1").innerHTML = rtt1;
-            document.getElementById("rtt2").innerHTML = rtt2;
-            document.getElementById("rtt3").innerHTML = rtt3;
+            document.getElementById("buttonRun").disabled = true;
+            document.getElementById("buttonSquare").disabled = true;
+            document.getElementById("buttonSensor").disabled = true;
+            document.getElementById("buttonStop").disabled = true;
+            document.getElementById("lengthSide").disabled = true;
+            document.getElementById("nbWall").innerHTML = nbWall;
         })
 
         // Genarates randomly MQTT client ID
@@ -156,21 +151,34 @@
                 Math.floor(100000000000 + Math.random() * 900000000000);
             MQTT_Client_ID = document.getElementById("txt_MQTT_Client_ID").value;
         }
+        
+        //Disabled useless button and change all output in grey
+        function status(runningState) {
+            if (runningState) {
+                document.getElementById("buttonRun").disabled = true;
+                document.getElementById("buttonSquare").disabled = true;
+                document.getElementById("buttonSensor").disabled = true;
+                document.getElementById("lengthSide").disabled = true;
+                document.getElementById("buttonStop").disabled = false;
+            } else {
+                document.getElementById("buttonRun").disabled = false;
+                document.getElementById("buttonSquare").disabled = false;
+                document.getElementById("buttonSensor").disabled = false;
+                document.getElementById("lengthSide").disabled = false;
+                document.getElementById("buttonStop").disabled = true;
+                document.getElementById("statusWall").hidden = true;
+                //Change output in grey
+                $('#statusRun').attr('color', 'grey');
+                $('#statusSquare').attr('color', 'grey');
+                $('#statusSensor').attr('color', 'grey');
+            }
+        }
 
-        function led(color, msg) {
-            var message = new Paho.MQTT.Message(msg);
-            message.destinationName = MQTT_topic_root + "led" + color;
-            if (color == 'green') {
-                rtt1 = (new Date()).getTime();
-                message.qos = 0;
-            }
-            if (color == 'yellow') {
-                rtt2 = (new Date()).getTime();
-                message.qos = 1;
-            }
-            if (color == 'red') {
-                rtt3 = (new Date()).getTime();
-                message.qos = 2;
+        function send(command) {
+            var message = new Paho.MQTT.Message(command);
+            message.destinationName = MQTT_topic_root + command;
+            if (command = 'Square') {
+                message.payloadString = lengthSide;
             }
             MQTT_Client.send(message);
             console.log(
@@ -190,13 +198,13 @@
 <body onload="initVars();">
     <article>
         <header>
-            <h1>&nbsp; IoT MQTT leds and sensors</h1>
+            <h1>&nbsp; IoT MQTT Control Roomba</h1>
             <ul class="nav nav-tabs">
                 <li>
                     <a href="index.html" target="_blank1">About</a>
                 </li>
                 <li class="active">
-                    <a href="leds.html" target="_self">Leds and sensors</a>
+                    <a href="leds.html" target="_self">Control Roomba</a>
                 </li>
                 <li>
                     <a href="pubsub.html" target="_blank3">Pub Sub</a>
@@ -233,40 +241,37 @@
         <section id="pubsub" class="panel-body">
             <h2>Publishing and subscribing</h2>
             <p>
-                <input disabled type="button" class="btn btn-success" id="button1on" onclick='led("green", "1");' value=" on  " />
-                <input type="button" class="btn btn-danger" disabled id="button1off" onclick='led("green", "0");' value=" off " /> &rarr; Broker &rarr;
-                <font id="ledgreenO" size='6' bgcolor='grey' color='green'>
+                <input disabled type="button" class="btn btn-success" id="buttonRun" onclick='send("run");' value=" Run forever " />
+                &rarr; Broker &rarr;
+                <font id="statusRun" size='6' bgcolor='grey' color='gray'>
                     <b> O </b>
                 </font>
-                &nbsp; &nbsp; Round-trip time =
-                <span id="rtt1"></span> msec
             </p>
+            
             <p>
-                <input type="button" class="btn btn-success" id="button2on" onclick='led("yellow", "1");' value=" on  " />
-                <input type="button" class="btn btn-danger" id="button2off" onclick='led("yellow", "0");' value=" off " /> &rarr; Broker &rarr;
-                <font id="ledyellowO" size='6' bgcolor='grey' color='yellow'>
+                <input disabled type="button" class="btn btn-success" id="buttonSquare" onclick='send("square");' value=" Draw square " /> 
+                <input type="text" id="lengthSide"  maxlength="2" style="width: 30px;"/> in cm &rarr; Broker &rarr;
+                <font id="statusSquare" size='6' bgcolor='grey' color='grey'>
                     <b> O </b>
                 </font>
-                &nbsp; &nbsp; Round-trip time =
-                <span id="rtt2"></span> msec
             </p>
+            
             <p>
-                <input type="button" class="btn btn-success" id="button3on" onclick='led("red", "1");' value=" on " />
-                <input type="button" class="btn btn-danger" id="button3off" onclick='led("red", "0");' value=" off " /> &rarr; Broker &rarr;
-                <font id="ledredO" size='6' bgcolor='grey' color='red'>
+                <input disabled type="button" class="btn btn-success" id="buttonSensor" onclick='send("sensor");' value=" Run forever with sensors " />
+                &rarr; Broker &rarr;
+                <font id="statusSensor" size='6' bgcolor='grey' color='grey'>
                     <b> O </b>
                 </font>
-                &nbsp; &nbsp; Round-trip time =
-                <span id="rtt3"></span> msec
+                <font hidden id="statusWall" >
+                    &nbsp; &nbsp; Number of wall detected :
+                    <span id="nbWall"></span>
+                </font>
             </p>
+            
             <p>
-                Broker &rarr; Temperature = &nbsp;
-                <textarea name="outputArea1" id="outputArea1" rows=1 cols=10 style="resize:none" onClick="this.select();" readonly="yes">???</textarea>
+                <br/><input disabled type="button" class="btn btn-danger" id="buttonStop" onclick='send("Stop");' value=" Stop " style="padding: 120px 120px;" />
             </p>
-            <p>
-                Broker &rarr; &nbsp; &nbsp; &nbsp; Humidity = &nbsp;
-                <textarea name="outputArea2" id="outputArea2" rows=1 cols=10 style="resize:none" onClick="this.select();" readonly="yes">???</textarea>
-            </p>
+            
         </section>
     </article>
     <footer>

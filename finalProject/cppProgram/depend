@@ -1,0 +1,5 @@
+command.o: command.cpp command.h lib/SerialLink/SerialLink.h \
+ OpenInterfaceConfig.h
+mqtt.o: mqtt.cpp mqtt.h command.h lib/SerialLink/SerialLink.h
+main.o: main.cpp mqtt.h command.h lib/SerialLink/SerialLink.h
+SerialLink.o: lib/SerialLink/SerialLink.cpp lib/SerialLink/SerialLink.h
