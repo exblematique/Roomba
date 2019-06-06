@@ -41,8 +41,9 @@ void command::square(int16_t length) {
 const void command::sensor(int16_t speed){
     changeVelocity(speed, speed);
     while (running) {
-    // Add sensor part on this part    
-    ;}
+      std::thread t2{&readChr, &sl}; //added these two lines
+      t2.join();
+    }
     changeVelocity(0, 0);
 }
 
@@ -52,3 +53,29 @@ void command::stop(){
 
 const bool command::getState() {return running;}
 void command::changeState() {running = not running;}
+
+
+// And here is the readign function
+
+void readChr(SerialLink *sl)
+{
+  while(running){
+    
+    std::vector<uint8_t> dt{};
+     sl->write(SENSORS);
+     std::this_thread::sleep_for(2s);
+   for(int i = 0; i < 10; i++){
+     dt = sl->read(2);
+      sl->write(SENSORS);
+   }
+      if(dt==wall_all||dt==wall_right||dt==wall_left){
+	   sl->write(changeVelocity(-200, -200));
+	   std::this_thread::sleep_for(1s);
+	   sl->write(changeVelocity( 0, -200));
+	   std::this_thread::sleep_for(1s);
+      	   sl->write(changeVelocity(200, 200));
+      
+  }
+  }
+}
+
