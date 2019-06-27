@@ -1,5 +1,7 @@
-command.o: command.cpp command.h lib/SerialLink/SerialLink.h \
- OpenInterfaceConfig.h
-mqtt.o: mqtt.cpp mqtt.h command.h lib/SerialLink/SerialLink.h
-main.o: main.cpp mqtt.h command.h lib/SerialLink/SerialLink.h
+command.o: program/command.cpp program/command.h \
+ program/../lib/SerialLink/SerialLink.h program/OpenInterfaceConfig.h
+mqtt.o: program/mqtt.cpp program/mqtt.h program/command.h \
+ program/../lib/SerialLink/SerialLink.h
+main.o: program/main.cpp program/mqtt.h program/command.h \
+ program/../lib/SerialLink/SerialLink.h
 SerialLink.o: lib/SerialLink/SerialLink.cpp lib/SerialLink/SerialLink.h

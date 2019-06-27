@@ -23,9 +23,9 @@ const uint8_t DRIVE_DIRECT_4{145};
 // I just this kind of definitions in Roombaseriallinkdemo, so i'm not sure which is right
 
 std::vector<uint8_t> SENSORS{142, 7};
-std::vector<uint8_t> wall_right{19, 1};
-std::vector<uint8_t> wall_left{19, 2};
-std::vector<uint8_t> wall_all{19, 3};
+std::vector<uint8_t> WALL_RIGHT{19, 1};
+std::vector<uint8_t> WALL_LEFT{19, 2};
+std::vector<uint8_t> WALL_ALL{19, 3};
 
 
 // Command data

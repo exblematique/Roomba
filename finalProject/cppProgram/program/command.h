@@ -2,7 +2,7 @@
 #define COMMAND_H
 
 #include <cstdint>
-#include "lib/SerialLink/SerialLink.h"
+#include "../lib/SerialLink/SerialLink.h"
 
 class command
 {

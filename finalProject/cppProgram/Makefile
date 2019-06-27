@@ -3,9 +3,9 @@ CFLAGS= -Wall -ggdb -Ilib/mqtt -Ilib/mqtt/cpp
 LDFLAGS= -Llib/mqtt lib/mqtt/cpp/libmosquittopp.so.1 lib/mqtt/libmosquitto.so.1 -lboost_system -pthread
 
 EXECUTABLE = controlRoomba
-SOURCES = ${wildcard *.cpp} \
+SOURCES = ${wildcard program/*.cpp} \
           ${wildcard lib/SerialLink/*.cpp}
-HEADERS = ${wildcard *.h} \
+HEADERS = ${wildcard program/*.h} \
           ${wildcard lib/SerialLink/*.h}
 OBJECTS = ${SOURCES:.cpp=.o}
 
