@@ -1,5 +1,12 @@
 #include "mqtt.h"
 
+/**
+ *  \brief This is the main function. It's created a mqtt object and start the receipt. Arguments are not necessarly
+ *  \param argv[1] defines the IP address of broker. localhost by default
+ *  \param argv[2] defines the listening port of broker. 1883 by default
+ *  \return status of program
+ **/
+
 int main(int argc, char *argv[])
 {
 	class mqtt *clientMqtt;
