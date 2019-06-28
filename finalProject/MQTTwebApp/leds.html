@@ -100,12 +100,8 @@
                 $('#statusRun').attr('color', 'green');                    
             }
             if (message.destinationName === MQTT_topic_sub + "square") {
-                //if (message.payloadString === '1') {
-                    status(true);
-                    $('#statusSquare').attr('color', 'green');
-                //} else {
-                //    status(false);
-                //}
+                status(true);
+                $('#statusSquare').attr('color', 'green');
             }
             if (message.destinationName === MQTT_topic_sub + "sensor") {
                 if (message.payloadString === 'W') {
@@ -175,11 +171,14 @@
         }
 
         function send(command) {
-            var message = new Paho.MQTT.Message(command);
-            message.destinationName = MQTT_topic_root + command;
-            if (command = 'Square') {
-                message.payloadString = lengthSide;
+            
+            
+            if (command == "square") {
+                var message = new Paho.MQTT.Message(String(lengthSide));
+            } else {
+                var message = new Paho.MQTT.Message(command);
             }
+            message.destinationName = MQTT_topic_root + command;
             MQTT_Client.send(message);
             console.log(
                 "MQTT message send: " + "\"" + message.payloadString + "\"" +
@@ -269,7 +268,7 @@
             </p>
             
             <p>
-                <br/><input disabled type="button" class="btn btn-danger" id="buttonStop" onclick='send("Stop");' value=" Stop " style="padding: 120px 120px;" />
+                <br/><input disabled type="button" class="btn btn-danger" id="buttonStop" onclick='send("stop");' value=" Stop " style="padding: 120px 120px;" />
             </p>
             
         </section>

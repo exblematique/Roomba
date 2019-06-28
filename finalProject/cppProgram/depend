@@ -1,4 +1,12 @@
+command.o: program/command.cpp program/command.h program/mqttStop.h \
+ program/../lib/SerialLink/SerialLink.h program/OpenInterfaceConfig.h
 OpenInterfaceConfig.o: program/OpenInterfaceConfig.cpp \
  program/OpenInterfaceConfig.h
+mqtt.o: program/mqtt.cpp program/mqtt.h program/command.h \
+ program/mqttStop.h program/../lib/SerialLink/SerialLink.h \
+ program/OpenInterfaceConfig.h
 mqttStop.o: program/mqttStop.cpp program/mqttStop.h
+main.o: program/main.cpp program/mqtt.h program/command.h \
+ program/mqttStop.h program/../lib/SerialLink/SerialLink.h \
+ program/OpenInterfaceConfig.h
 SerialLink.o: lib/SerialLink/SerialLink.cpp lib/SerialLink/SerialLink.h

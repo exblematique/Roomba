@@ -28,7 +28,7 @@ class command
     private:
         static bool running;
         static SerialLink *sl;
-        mqttStop *mq;
+        static mqttStop *mq;
         static OIC *oic;
 };
 
@@ -38,6 +38,7 @@ class command
 #else 
     SerialLink* command::sl = new SerialLink("/dev/ttyUSB0", 115200);
     bool command::running = false;
+    mqttStop* command::mq = new mqttStop("SignalStop", "localhost", 1883);
     OIC* command::oic = new OIC();
 #endif
 #endif

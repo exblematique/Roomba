@@ -16,7 +16,7 @@ mqtt::mqtt(const char *id, const char *host, int port)
     : mosquittopp(id)
     , cd{}
     , rootTopic{"roomba/"}
-    , pubTopic{rootTopic + "toApi/"}
+    , pubTopic{(rootTopic + "toApi/").c_str()}
 {
 	int keepalive = 60;
 	connect(host, port, keepalive);
@@ -52,7 +52,7 @@ void mqtt::on_connect(int rc)
 void mqtt::on_message(const struct mosquitto_message *message)
 {
     //double temp_celsius, temp_farenheit;
-    printf("Message incoming on topic %s: %s", message->topic, (char*) message->payload);
+    printf("Message incoming on topic %s: %s\n", message->topic, (char*) message->payload);
     int value;
   
     if (cd.getState()){   //Chech if one program currently running
@@ -63,25 +63,25 @@ void mqtt::on_message(const struct mosquitto_message *message)
         if(!strcmp(message->topic, (rootTopic + "run").c_str())){
             memset(buf, 0, 51*sizeof(char));	  
             snprintf(buf, 50, "Start system");
+            std::thread th{&command::run, 200};
+            th.detach();
             publish(NULL, (pubTopic + "run").c_str(), strlen(buf), buf);
-            std::thread th{command::run, 200};
-            th.join();
         } 
         if(!strcmp(message->topic, (rootTopic + "square").c_str())){
             memset(buf, 0, 51*sizeof(char));	  
             snprintf(buf, 50, "Drawing square");
-            publish(NULL, (pubTopic + "square").c_str(), strlen(buf), buf);
             memcpy(buf, message->payload, 50*sizeof(char));
             value = atoi(buf);
-            std::thread th{command::square, value};
-            th.join();
+            std::thread th{&command::square, value};
+            th.detach();
+            publish(NULL, (pubTopic + "square").c_str(), strlen(buf), buf);
         }
         if(!strcmp(message->topic, (rootTopic + "sensor").c_str())){
             memset(buf, 0, 51*sizeof(char));	  
             snprintf(buf, 50, "Start system with sensor");
-            publish(NULL, (pubTopic + "sensor").c_str(), strlen(buf), buf);
             std::thread th{&command::sensor, 200};
-            th.join();
+            th.detach();
+            publish(NULL, (pubTopic + "sensor").c_str(), strlen(buf), buf);
         }
     }
 }
@@ -92,14 +92,4 @@ void mqtt::on_message(const struct mosquitto_message *message)
 void mqtt::on_subscribe(int mid, int qos_count, const int *granted_qos)
 {
 	printf("Subscription succeeded.\n");
-}
-
-/**
- *  \brief mqtt::sendStop sends to web API the stop signal
- **/
-const void mqtt::sendStop()
-{
-    memset(buf, 0, 51*sizeof(char));	  
-    snprintf(buf, 50, "Stop system");
-    publish(NULL, (pubTopic + "stop").c_str(), strlen(buf), buf);
 }

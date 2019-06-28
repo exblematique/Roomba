@@ -28,8 +28,10 @@ int main(int argc, char *argv[])
 	  printf("Try to connect in localhost !\n");
 	  clientMqtt = new mqtt("RPi", "localhost", 1883);
 	}
-	clientMqtt->loop_forever();
+	clientMqtt->loop_start();
 
+    while (true) ;
+    
 	mosqpp::lib_cleanup();
 
 	return 0;

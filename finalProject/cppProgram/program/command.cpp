@@ -14,8 +14,8 @@ using namespace std::chrono_literals;
  *  \param mqtt mq_ is used to send stop signal
  **/
 command::command()
-    : mq{new mqttStop("SignalStop", "localhost", 1883)}
 {
+    mq->loop_start();
     sl->write(oic->startSafe());
 }
 
@@ -46,7 +46,12 @@ const void command::run(int16_t speed){
  *  \note This function can be interrupted when running variable become false. 
  **/
 void command::square(int16_t length) {
+    std::chrono::seconds delay;
+    if (length == 0) delay = 2s;
+    else delay = std::chrono::seconds(length);
+    
     running = true;
+    
     std::chrono::system_clock::time_point time;
     for (int i=0; i<4; i++) {
         //Turning phase
@@ -62,7 +67,7 @@ void command::square(int16_t length) {
         //Move forward phase
         time = std::chrono::system_clock::now();
         sl->write(oic->changeVelocity(100, 100));
-        while (std::chrono::system_clock::now() - time < std::chrono::seconds(length)){
+        while (std::chrono::system_clock::now() - time < delay){
             if (!running){
                 sl->write(oic->changeVelocity(0, 0));
                 return;
@@ -71,6 +76,7 @@ void command::square(int16_t length) {
     }
     sl->write(oic->changeVelocity(0, 0));
     running = false;
+    mq->sendStop();
 }
 
 /**
@@ -90,6 +96,7 @@ const void command::sensor(int16_t speed){
             sl->write(oic->SENSORS);
         }
         if(dt==oic->WALL_ALL||dt==oic->WALL_RIGHT||dt==oic->WALL_LEFT){
+            mq->sendWall();
             sl->write(oic->changeVelocity(-200, -200));
             std::this_thread::sleep_for(1s);
             sl->write(oic->changeVelocity( 0, -200));
