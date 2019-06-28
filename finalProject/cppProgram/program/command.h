@@ -10,7 +10,7 @@
 
 
 /**
- *  \class Command defines all actions available for the Roomba and the current state of roomba
+ *  \class command defines all actions available for the Roomba and the current state of roomba
  **/
 class command
 {
@@ -23,7 +23,6 @@ class command
         const static void sensor(int16_t speed);
         void stop();
         const bool getState();
-        void changeState();
         
     private:
         static bool running;

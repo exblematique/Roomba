@@ -1,0 +1,7 @@
+<map id="mqtt::~mqtt" name="mqtt::~mqtt">
+<area shape="rect" id="node2" href="$a00037.html#ad27682e634eb2f288917519b8a7cbc20" title="command::getState return the value of running variable " alt="" coords="144,5,280,32"/>
+<area shape="rect" id="node3" href="$a00037.html#a5031cb2a6dd4d3313ca568e925e2d7ba" title="command::stop change the running variable to false " alt="" coords="156,56,268,83"/>
+<area shape="rect" id="node4" href="$a00037.html#a7d50cc8c05dfabb797d2c16a9e340d1c" title="command::run move forword the Roomba until running variable become false " alt="" coords="159,107,265,133"/>
+<area shape="rect" id="node5" href="$a00037.html#a40442e42e88cdfe57f26c1f847a2592f" title="command::square move forward the Roomba until running variable become false " alt="" coords="149,157,275,184"/>
+<area shape="rect" id="node6" href="$a00037.html#a05669ab5849119c5477ddcb459717fc0" title="command::sensor move forward the Roomba and when a wall is detected the roomba turn. " alt="" coords="149,208,275,235"/>
+</map>

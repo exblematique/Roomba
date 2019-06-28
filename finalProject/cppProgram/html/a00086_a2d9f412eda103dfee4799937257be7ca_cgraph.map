@@ -1,0 +1,7 @@
+<map id="net__socket_close" name="net__socket_close">
+<area shape="rect" id="node2" href="$a00089.html#a9803d73c66c4d3a082e4ad74ed4af39f" title="net__try_connect_step1" alt="" coords="184,5,345,32"/>
+<area shape="rect" id="node3" href="$a00062.html#a18886ef1d4cda1dd619d7abcf178ee5e" title="mosquitto__free" alt="" coords="207,56,322,83"/>
+<area shape="rect" id="node4" href="$a00062.html#aabd59124b21e21d78a06eed87e26df85" title="mosquitto__calloc" alt="" coords="201,107,328,133"/>
+<area shape="rect" id="node5" href="$a00089.html#a2c977377f8cf7a08790a2cf7e24f7a59" title="net__try_connect_step2" alt="" coords="184,157,345,184"/>
+<area shape="rect" id="node6" href="$a00086.html#a1a56cf2e991d5f23d21fdc7aa95b8838" title="net__socket_nonblock" alt="" coords="189,208,341,235"/>
+</map>

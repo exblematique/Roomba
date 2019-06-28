@@ -4,6 +4,9 @@
 #include <cstdint>
 #include <vector>
 
+/**
+ *  \class OIC defines all basic scripts for serial communication
+ **/
 class OIC
 {
     public:

@@ -1,0 +1,5 @@
+<map id="command::sensor" name="command::sensor">
+<area shape="rect" id="node2" href="$a00238.html#af0e94df5c46bb1b89f2b79eda8312fde" title="SerialLink::write writes data to the connected device. " alt="" coords="180,5,295,32"/>
+<area shape="rect" id="node3" href="$a00185.html#ad1a8db1757f03e74a8aa3df8e9c5aa5d" title="Velocities in mm/sec. " alt="" coords="182,56,293,83"/>
+<area shape="rect" id="node4" href="$a00238.html#a72e3bc4cbecf4909a9df216f4393075a" title="SerialLink::read reads data from the serial devie. " alt="" coords="181,107,293,133"/>
+</map>

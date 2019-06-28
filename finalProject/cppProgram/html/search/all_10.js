@@ -1,0 +1,21 @@
+var searchData=
+[
+  ['rc',['rc',['../a00202.html#a88d5cac69a20b86322ed7f8a683a42a5',1,'userdata__callback']]],
+  ['read',['read',['../a00238.html#a72e3bc4cbecf4909a9df216f4393075a',1,'SerialLink']]],
+  ['read_5fhandle_2ec',['read_handle.c',['../a00101.html',1,'']]],
+  ['read_5fhandle_2eh',['read_handle.h',['../a00104.html',1,'']]],
+  ['reconnect',['reconnect',['../a00198.html#aca34638e491d81d3c2aae5a739c4130d',1,'mosqpp::mosquittopp']]],
+  ['reconnect_5fasync',['reconnect_async',['../a00198.html#a8d0121902321e5800d62d61daf0c4e9e',1,'mosqpp::mosquittopp']]],
+  ['reconnect_5fdelay',['reconnect_delay',['../a00234.html#a1752164d198df0f7a1a3e8528e7dd7c5',1,'mosquitto']]],
+  ['reconnect_5fdelay_5fmax',['reconnect_delay_max',['../a00234.html#af837fe63e7a339ee03f217c9a9bdd6d5',1,'mosquitto']]],
+  ['reconnect_5fdelay_5fset',['reconnect_delay_set',['../a00198.html#a10571b5de7a5173c13c9ee2a30c44180',1,'mosqpp::mosquittopp']]],
+  ['reconnect_5fexponential_5fbackoff',['reconnect_exponential_backoff',['../a00234.html#a91fa9edc74cff913da3b1b2b4a930569',1,'mosquitto']]],
+  ['reinitialise',['reinitialise',['../a00198.html#ab1ff84396b72c83d8d9ab67d80ac0d33',1,'mosqpp::mosquittopp']]],
+  ['remaining_5fcount',['remaining_count',['../a00226.html#a9876a35a699ae24dd93234ab3a155c1a',1,'mosquitto__packet']]],
+  ['remaining_5flength',['remaining_length',['../a00226.html#a68e1402b31b993911d1b874e9d9c6320',1,'mosquitto__packet']]],
+  ['remaining_5fmult',['remaining_mult',['../a00226.html#a6f1c3374597da2692f0166d7ed918528',1,'mosquitto__packet']]],
+  ['retain',['retain',['../a00210.html#a3ba1c96cd9ab5e8bda600b5b6b8c7468',1,'mosquitto_message::retain()'],['../a00214.html#aa6a4b15f74a4af2ad37fc55c37aec33c',1,'libmosquitto_will::retain()']]],
+  ['roomba_5fdefault',['ROOMBA_DEFAULT',['../a00185.html#a131c4cecbe4f0fff8d6e5d8229f576bbac4af6a2722c1b3d32fc4b22cdbe46a30',1,'OpenInterfaceConfig.h']]],
+  ['roomba_5fslow',['ROOMBA_SLOW',['../a00185.html#a131c4cecbe4f0fff8d6e5d8229f576bba67a5da0be73f958e253fae1b1db5aff4',1,'OpenInterfaceConfig.h']]],
+  ['run',['run',['../a00194.html#a7d50cc8c05dfabb797d2c16a9e340d1c',1,'command']]]
+];

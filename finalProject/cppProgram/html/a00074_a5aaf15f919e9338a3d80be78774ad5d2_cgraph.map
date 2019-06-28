@@ -1,0 +1,12 @@
+<map id="mosquitto__destroy" name="mosquitto__destroy">
+<area shape="rect" id="node2" href="$a00086.html#a2d9f412eda103dfee4799937257be7ca" title="net__socket_close" alt="" coords="201,132,332,159"/>
+<area shape="rect" id="node4" href="$a00062.html#a18886ef1d4cda1dd619d7abcf178ee5e" title="mosquitto__free" alt="" coords="601,309,716,336"/>
+<area shape="rect" id="node8" href="$a00068.html#ae8c2c0ead89e671224d3f3491f1fd7de" title="message__cleanup_all" alt="" coords="189,309,344,336"/>
+<area shape="rect" id="node10" href="$a00161.html#abb4945a076034e9677c5436d8eabbc15" title="will__clear" alt="" coords="225,360,308,387"/>
+<area shape="rect" id="node11" href="$a00095.html#ab624f1fcb84024549fc4a2b6649d22ab" title="packet__cleanup" alt="" coords="207,411,327,437"/>
+<area shape="rect" id="node3" href="$a00089.html#a9803d73c66c4d3a082e4ad74ed4af39f" title="net__try_connect_step1" alt="" coords="392,5,553,32"/>
+<area shape="rect" id="node5" href="$a00062.html#aabd59124b21e21d78a06eed87e26df85" title="mosquitto__calloc" alt="" coords="409,107,536,133"/>
+<area shape="rect" id="node6" href="$a00089.html#a2c977377f8cf7a08790a2cf7e24f7a59" title="net__try_connect_step2" alt="" coords="392,157,553,184"/>
+<area shape="rect" id="node7" href="$a00086.html#a1a56cf2e991d5f23d21fdc7aa95b8838" title="net__socket_nonblock" alt="" coords="397,208,549,235"/>
+<area shape="rect" id="node9" href="$a00068.html#abb319d8551e2ac171eebb29103d8158c" title="message__cleanup" alt="" coords="405,309,540,336"/>
+</map>

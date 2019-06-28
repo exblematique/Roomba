@@ -16,8 +16,6 @@ class mqtt : public mosqpp::mosquittopp
 		mqtt(const char *id, const char *host, int port);
 		~mqtt();
         
-        const void sendStop();
-        
     private:
         command cd;
         const std::string rootTopic;
