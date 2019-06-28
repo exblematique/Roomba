@@ -14,14 +14,11 @@
  **/
 mqtt::mqtt(const char *id, const char *host, int port)
     : mosquittopp(id)
-    , cd{&this}
+    , cd{}
     , rootTopic{"roomba/"}
     , pubTopic{rootTopic + "toApi/"}
 {
 	int keepalive = 60;
-
-	/* Connect immediately. This could also be done by calling
-	 * mqtt->connect(). */
 	connect(host, port, keepalive);
 }
 
@@ -34,7 +31,7 @@ mqtt::~mqtt()
 }
 
 /**
- *  \brief mqtt::on_connect try to connect on broker. 
+ *  \brief mqtt::on_connect try to connect on broker. When in successful, it subscribe on root topic.
  *  \param int rc is the error code of connection
  *  \note The program is stopped until the connection is successful
  **/
@@ -56,7 +53,6 @@ void mqtt::on_message(const struct mosquitto_message *message)
 {
     //double temp_celsius, temp_farenheit;
     printf("Message incoming on topic %s: %s", message->topic, (char*) message->payload);
-    char buf[51];
     int value;
   
     if (cd.getState()){   //Chech if one program currently running
@@ -77,15 +73,15 @@ void mqtt::on_message(const struct mosquitto_message *message)
             publish(NULL, (pubTopic + "square").c_str(), strlen(buf), buf);
             memcpy(buf, message->payload, 50*sizeof(char));
             value = atoi(buf);
-            std::thread th{&command::square, value};
-            //th.join();
+            std::thread th{command::square, value};
+            th.join();
         }
         if(!strcmp(message->topic, (rootTopic + "sensor").c_str())){
             memset(buf, 0, 51*sizeof(char));	  
             snprintf(buf, 50, "Start system with sensor");
             publish(NULL, (pubTopic + "sensor").c_str(), strlen(buf), buf);
-            //std::thread th{&command::sensor, 200};
-            //th.join();
+            std::thread th{&command::sensor, 200};
+            th.join();
         }
     }
 }
@@ -106,15 +102,4 @@ const void mqtt::sendStop()
     memset(buf, 0, 51*sizeof(char));	  
     snprintf(buf, 50, "Stop system");
     publish(NULL, (pubTopic + "stop").c_str(), strlen(buf), buf);
-}
-
-/**
- *  \brief Overloading of equal for command class
- **/
-mqtt& operator=(const mqtt& other)
-{
-    cd = command();//nullptr;
-    rootTopic = other.rootTopic;
-    pubTopic = other.pubTopic;
-    return *this;
 }

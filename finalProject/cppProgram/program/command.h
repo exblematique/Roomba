@@ -4,11 +4,10 @@
 #include <cstdint>
 
 
-//#include "mqtt.h"
-#include "OpenInterfaceConfig.h"
+#include "mqttStop.h"
 #include "../lib/SerialLink/SerialLink.h"
+#include "OpenInterfaceConfig.h"
 
-class mqtt;
 
 /**
  *  \class Command defines all actions available for the Roomba and the current state of roomba
@@ -16,8 +15,7 @@ class mqtt;
 class command
 {
 	public:
-        command() = delete;
-		command(mqtt *mq_);
+        command();
 		~command();
 
 		const static void run(int16_t speed);
@@ -29,11 +27,19 @@ class command
         
     private:
         static bool running;
-        static SerialLink sl;
-        mqtt *mq;
+        static SerialLink *sl;
+        mqttStop *mq;
+        static OIC *oic;
 };
 
-bool command::running = false;
-SerialLink command::sl = {"/dev/ttyUSB0", static_cast<unsigned int>(Baud::ROOMBA_DEFAULT)};
+#ifdef MQTT_H
+#else
+#ifdef MAIN
+#else 
+    SerialLink* command::sl = new SerialLink("/dev/ttyUSB0", 115200);
+    bool command::running = false;
+    OIC* command::oic = new OIC();
+#endif
+#endif
 
 #endif
